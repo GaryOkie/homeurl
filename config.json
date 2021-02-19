@@ -1,16 +1,24 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
-
-ENV LANG C.UTF-8
-
-# Copy data for add-on
-COPY run.sh /
-COPY homeurl.py /
-
-RUN apk add --no-cache python3 \
-    && chmod a+x /run.sh \
-    && chmod a+x /homeurl.py
-
-LABEL io.hass.version="V1" io.hass.type="addon" io.hass.arch="amd64"
-
-CMD [ "/run.sh" ]
+{
+  "name": "Home URL",
+  "version": "1.2",
+  "slug": "homeurl",
+  "description": "Access local http URL",
+  "panel_title": "Internal Website",
+  "arch": ["amd64"],
+  "startup": "application",
+  "boot": "auto",
+  "init": "false",
+  "ingress": true,
+  "ingress_port": 0,
+  "webui": "http://[HOST]:[PORT:80]",
+  "host_network": "true",
+  "options": {
+    "URL": "http://192.168.2.254"
+  },
+  "schema": {
+    "URL": "str"
+  }, 
+  "ports": {
+    "80/tcp": null
+  }
+}
